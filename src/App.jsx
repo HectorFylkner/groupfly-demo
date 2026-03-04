@@ -635,7 +635,6 @@ const Screen3 = ({ onBookAll }) => {
    ══════════════════════════════════════════════════════════════════ */
 const BookingAnimation = ({ onDone }) => {
   const canvasRef = useRef(null)
-  const [showConfirmed, setShowConfirmed] = useState(false)
   const [showFlash, setShowFlash] = useState(false)
   const startTimeRef = useRef(null)
   const rafRef = useRef(null)
@@ -654,15 +653,12 @@ const BookingAnimation = ({ onDone }) => {
     0.0 – 0.6   Fade in: avatars appear one by one in a circle
     0.6 – 2.0   Gentle orbit
     2.0 – 3.6   Accelerating spiral inward (speed ramps up, radius shrinks)
-    3.6 – 3.7   Crescendo flash
-    3.7 – 4.8   Confirmed state (plane + settled dots)
-    4.8         → onDone
+    3.6         Crescendo flash → advance to seat map
   */
-  const TOTAL = 5.8
+  const TOTAL = 4.2
   const T_FADE_END = 0.6
   const T_ACCEL_START = 2.0
   const T_CONVERGE = 3.6
-  const T_CONFIRMED = 3.7
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -807,7 +803,7 @@ const BookingAnimation = ({ onDone }) => {
       }
 
       // Draw center glow (builds as avatars approach)
-      if (t >= T_ACCEL_START && t < T_CONFIRMED) {
+      if (t >= T_ACCEL_START && t < TOTAL) {
         const p = Math.min(1, (t - T_ACCEL_START) / (T_CONVERGE - T_ACCEL_START))
         const glowSize = 15 + p * 40
         const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, glowSize)
@@ -844,7 +840,7 @@ const BookingAnimation = ({ onDone }) => {
       }
 
       // Crescendo: ripple rings
-      if (t >= T_CONVERGE && t < T_CONFIRMED + 1) {
+      if (t >= T_CONVERGE && t < TOTAL) {
         const since = t - T_CONVERGE
         for (let i = 0; i < 3; i++) {
           const ringT = since - i * 0.12
@@ -880,46 +876,6 @@ const BookingAnimation = ({ onDone }) => {
         }
       }
 
-      // Confirmed state: plane glow + settled dots
-      if (t >= T_CONFIRMED) {
-        const confirmP = Math.min(1, (t - T_CONFIRMED) / 0.4)
-        // Center glow settles
-        const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, 35)
-        gradient.addColorStop(0, `rgba(43,107,242,${0.2 * confirmP})`)
-        gradient.addColorStop(1, 'rgba(43,107,242,0)')
-        ctx.beginPath()
-        ctx.arc(cx, cy, 35, 0, Math.PI * 2)
-        ctx.fillStyle = gradient
-        ctx.fill()
-
-        // Settled ring
-        const ringScale = 0.5 + confirmP * 0.5
-        ctx.beginPath()
-        ctx.arc(cx, cy, 44 * ringScale, 0, Math.PI * 2)
-        ctx.strokeStyle = `rgba(43,107,242,${0.15 * confirmP})`
-        ctx.lineWidth = 1
-        ctx.stroke()
-
-        // Small settled dots
-        for (let i = 0; i < 6; i++) {
-          const dotDelay = i * 0.05
-          const dotP = Math.max(0, Math.min(1, (t - T_CONFIRMED - dotDelay) / 0.25))
-          if (dotP <= 0) continue
-          const da = (i * 60 - 90) * (Math.PI / 180)
-          const dx = cx + Math.cos(da) * 44
-          const dy = cy + Math.sin(da) * 44
-          ctx.save()
-          ctx.globalAlpha = dotP
-          ctx.shadowColor = people[i].color
-          ctx.shadowBlur = 6
-          ctx.beginPath()
-          ctx.arc(dx, dy, 4 * dotP, 0, Math.PI * 2)
-          ctx.fillStyle = people[i].color
-          ctx.fill()
-          ctx.restore()
-        }
-      }
-
       if (t < TOTAL) {
         rafRef.current = requestAnimationFrame(animate)
       }
@@ -930,8 +886,6 @@ const BookingAnimation = ({ onDone }) => {
     // Trigger flash
     const flashTimer = setTimeout(() => setShowFlash(true), T_CONVERGE * 1000)
     const flashOffTimer = setTimeout(() => setShowFlash(false), (T_CONVERGE + 0.6) * 1000)
-    // Trigger confirmed text
-    const confirmTimer = setTimeout(() => setShowConfirmed(true), T_CONFIRMED * 1000)
     // Done
     const doneTimer = setTimeout(onDone, TOTAL * 1000)
 
@@ -939,7 +893,6 @@ const BookingAnimation = ({ onDone }) => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
       clearTimeout(flashTimer)
       clearTimeout(flashOffTimer)
-      clearTimeout(confirmTimer)
       clearTimeout(doneTimer)
     }
   }, [onDone])
@@ -971,7 +924,7 @@ const BookingAnimation = ({ onDone }) => {
         opacity: showFlash ? 0 : 1,
         transition: 'opacity 0.2s ease',
       }}>
-        {showConfirmed ? 'Seats secured!' : 'Booking 6 seats together...'}
+        Booking 6 seats together...
       </div>
       <div style={{ fontSize: 13, color: C.grey, marginBottom: 28 }}>
         SK1423 · ARN → BCN
