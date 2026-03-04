@@ -961,12 +961,9 @@ const Screen5 = () => {
         </div>
       </div>
 
-      <div style={{ padding: '0 20px 16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <div style={{ padding: '0 20px 16px' }}>
         <div style={{ background: C.blue, borderRadius: 26, padding: '14px 0', textAlign: 'center', fontWeight: 600, fontSize: 15, color: C.white }}>
           Share confirmation with group
-        </div>
-        <div style={{ textAlign: 'center', padding: '6px 0' }}>
-          <span style={{ fontSize: 13, color: C.blue, fontWeight: 500 }}>Add EuroBonus Local experiences in Barcelona →</span>
         </div>
       </div>
     </div>
