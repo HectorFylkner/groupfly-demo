@@ -24,7 +24,7 @@ const C = {
 /* ─── Member database (invitees — all EB members) ─── */
 const ALL_MEMBERS = [
   { id: 'hector', name: 'Hector F.', tier: 'Silver', eb: 'EB-209847102', card: '4291', init: 'H', initColor: C.blue },
-  { id: 'daniel', name: 'Daniel Å.', tier: 'Member', eb: 'EB-671034825', card: '5519', init: 'D', initColor: '#10B981' },
+  { id: 'daniel', name: 'Daniel Å.', tier: 'Silver', eb: 'EB-671034825', card: '5519', init: 'D', initColor: '#10B981' },
   { id: 'fritiof', name: 'Fritiof H.', tier: 'Member', eb: 'EB-812956340', card: '2206', init: 'F', initColor: '#8B5CF6' },
   { id: 'lily', name: 'Lily G.', tier: 'Silver', eb: 'EB-309284751', card: '4488', init: 'Li', initColor: '#A8B0BA' },
   { id: 'david', name: 'David B.', tier: 'Member', eb: 'EB-156723890', card: '3317', init: 'D', initColor: '#F97316' },
@@ -431,13 +431,12 @@ const Screen2 = ({ onComplete }) => {
 
 /* ══════════════════════════════════════════════════════════════════
    SCREEN 3: Waiting Room — interactive Send Reminder + Book All
-   4/6 confirmed at start (Luca, Hector, Daniel, Lily)
-   2 pending: Fritiof, David
+   5/6 confirmed at start (Luca, Hector, Daniel, Lily, David)
+   1 pending: Fritiof
    ══════════════════════════════════════════════════════════════════ */
 const Screen3 = ({ onBookAll }) => {
   const [memberStates, setMemberStates] = useState({
     fritiof: 'pending',
-    david: 'pending',
   })
   const [justConfirmed, setJustConfirmed] = useState(null)
 
@@ -451,16 +450,16 @@ const Screen3 = ({ onBookAll }) => {
     }, 2500)
   }
 
-  const confirmedCount = 4 + (memberStates.fritiof === 'confirmed' ? 1 : 0) + (memberStates.david === 'confirmed' ? 1 : 0)
+  const confirmedCount = 5 + (memberStates.fritiof === 'confirmed' ? 1 : 0)
   const allConfirmed = confirmedCount === 6
 
   const members = [
     { id: null, name: ORGANIZER.name, tier: ORGANIZER.tier, card: ORGANIZER.card, init: ORGANIZER.init, initColor: ORGANIZER.initColor, method: 'Organizer', status: 'confirmed' },
     { id: null, name: 'Hector F.', tier: 'Silver', card: '4291', init: 'H', initColor: C.blue, method: 'EB Invite', status: 'confirmed' },
-    { id: null, name: 'Daniel Å.', tier: 'Member', card: '5519', init: 'D', initColor: '#10B981', method: 'EB Invite', status: 'confirmed' },
+    { id: null, name: 'Daniel Å.', tier: 'Silver', card: '5519', init: 'D', initColor: '#10B981', method: 'EB Invite', status: 'confirmed' },
     { id: null, name: 'Lily G.', tier: 'Silver', card: '4488', init: 'Li', initColor: '#A8B0BA', method: 'EB Invite', status: 'confirmed' },
+    { id: null, name: 'David B.', tier: 'Member', card: '3317', init: 'D', initColor: '#F97316', method: 'EB Invite', status: 'confirmed' },
     { id: 'fritiof', name: 'Fritiof H.', tier: 'Member', card: '2206', init: 'F', initColor: '#8B5CF6', method: 'EB Invite', status: memberStates.fritiof },
-    { id: 'david', name: 'David B.', tier: 'Member', card: '3317', init: 'D', initColor: '#F97316', method: 'EB Invite', status: memberStates.david },
   ]
 
   return (
@@ -945,10 +944,10 @@ const ScreenBiofuel = ({ onDone }) => {
   const [safStates, setSafStates] = useState({
     luca: true,
     hector: true,
-    daniel: false,
+    daniel: true,
     fritiof: false,
     lily: true,
-    david: false,
+    david: true,
   })
   const [sendingId, setSendingId] = useState(null)
   const [justAdded, setJustAdded] = useState(null)
@@ -1259,7 +1258,7 @@ const Screen6 = ({ onBiofuel }) => {
             </div>
             <div>
               <div style={{ fontSize: 14, fontWeight: 600, color: C.white }}>Biofuel Bonus</div>
-              <div style={{ fontSize: 12, color: C.grey, marginTop: 1 }}>3 of 6 members · Earn level points</div>
+              <div style={{ fontSize: 12, color: C.grey, marginTop: 1 }}>5 of 6 members · Earn level points</div>
             </div>
           </div>
           <ChevronRight size={16} color={C.greyLight} />
