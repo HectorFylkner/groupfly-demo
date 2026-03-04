@@ -23,15 +23,15 @@ const C = {
 
 /* ─── Member database (invitees — all EB members) ─── */
 const ALL_MEMBERS = [
-  { id: 'luca', name: 'Luca M.', tier: 'Silver', eb: 'EB-445129038', card: '7834', init: 'L', initColor: C.blue },
-  { id: 'daniel', name: 'Daniel S.', tier: 'Member', eb: 'EB-671034825', card: '5519', init: 'D', initColor: '#10B981' },
-  { id: 'fritiof', name: 'Fritiof K.', tier: 'Member', eb: 'EB-812956340', card: '2206', init: 'F', initColor: '#8B5CF6' },
-  { id: 'lily', name: 'Lily R.', tier: 'Silver', eb: 'EB-309284751', card: '4488', init: 'Li', initColor: '#A8B0BA' },
-  { id: 'david', name: 'David W.', tier: 'Member', eb: 'EB-156723890', card: '3317', init: 'D', initColor: '#F97316' },
+  { id: 'hector', name: 'Hector F.', tier: 'Silver', eb: 'EB-209847102', card: '4291', init: 'H', initColor: C.blue },
+  { id: 'daniel', name: 'Daniel Å.', tier: 'Member', eb: 'EB-671034825', card: '5519', init: 'D', initColor: '#10B981' },
+  { id: 'fritiof', name: 'Fritiof H.', tier: 'Member', eb: 'EB-812956340', card: '2206', init: 'F', initColor: '#8B5CF6' },
+  { id: 'lily', name: 'Lily G.', tier: 'Silver', eb: 'EB-309284751', card: '4488', init: 'Li', initColor: '#A8B0BA' },
+  { id: 'david', name: 'David B.', tier: 'Member', eb: 'EB-156723890', card: '3317', init: 'D', initColor: '#F97316' },
 ]
 
 /* ─── Organizer ─── */
-const ORGANIZER = { name: 'Hector L.', tier: 'Gold', eb: 'EB-209847102', card: '4291', init: 'H', initColor: '#D4A843' }
+const ORGANIZER = { name: 'Luca G.', tier: 'Gold', eb: 'EB-445129038', card: '7834', init: 'L', initColor: '#D4A843' }
 
 /* ─── SAS Logo ─── */
 const SASLogo = ({ size = 24, color = C.white }) => (
@@ -431,7 +431,7 @@ const Screen2 = ({ onComplete }) => {
 
 /* ══════════════════════════════════════════════════════════════════
    SCREEN 3: Waiting Room — interactive Send Reminder + Book All
-   4/6 confirmed at start (Hector, Luca, Daniel, Lily)
+   4/6 confirmed at start (Luca, Hector, Daniel, Lily)
    2 pending: Fritiof, David
    ══════════════════════════════════════════════════════════════════ */
 const Screen3 = ({ onBookAll }) => {
@@ -456,11 +456,11 @@ const Screen3 = ({ onBookAll }) => {
 
   const members = [
     { id: null, name: ORGANIZER.name, tier: ORGANIZER.tier, card: ORGANIZER.card, init: ORGANIZER.init, initColor: ORGANIZER.initColor, method: 'Organizer', status: 'confirmed' },
-    { id: null, name: 'Luca M.', tier: 'Silver', card: '7834', init: 'L', initColor: C.blue, method: 'EB Invite', status: 'confirmed' },
-    { id: null, name: 'Daniel S.', tier: 'Member', card: '5519', init: 'D', initColor: '#10B981', method: 'EB Invite', status: 'confirmed' },
-    { id: null, name: 'Lily R.', tier: 'Silver', card: '4488', init: 'Li', initColor: '#A8B0BA', method: 'EB Invite', status: 'confirmed' },
-    { id: 'fritiof', name: 'Fritiof K.', tier: 'Member', card: '2206', init: 'F', initColor: '#8B5CF6', method: 'EB Invite', status: memberStates.fritiof },
-    { id: 'david', name: 'David W.', tier: 'Member', card: '3317', init: 'D', initColor: '#F97316', method: 'EB Invite', status: memberStates.david },
+    { id: null, name: 'Hector F.', tier: 'Silver', card: '4291', init: 'H', initColor: C.blue, method: 'EB Invite', status: 'confirmed' },
+    { id: null, name: 'Daniel Å.', tier: 'Member', card: '5519', init: 'D', initColor: '#10B981', method: 'EB Invite', status: 'confirmed' },
+    { id: null, name: 'Lily G.', tier: 'Silver', card: '4488', init: 'Li', initColor: '#A8B0BA', method: 'EB Invite', status: 'confirmed' },
+    { id: 'fritiof', name: 'Fritiof H.', tier: 'Member', card: '2206', init: 'F', initColor: '#8B5CF6', method: 'EB Invite', status: memberStates.fritiof },
+    { id: 'david', name: 'David B.', tier: 'Member', card: '3317', init: 'D', initColor: '#F97316', method: 'EB Invite', status: memberStates.david },
   ]
 
   return (
@@ -610,8 +610,8 @@ const BookingAnimation = ({ onDone }) => {
   }, [onDone])
 
   const people = [
-    { init: 'H', color: '#D4A843', tx: '0px', ty: '-50px' },
-    { init: 'L', color: C.blue, tx: '43px', ty: '-25px' },
+    { init: 'L', color: '#D4A843', tx: '0px', ty: '-50px' },
+    { init: 'H', color: C.blue, tx: '43px', ty: '-25px' },
     { init: 'D', color: '#10B981', tx: '43px', ty: '25px' },
     { init: 'F', color: '#8B5CF6', tx: '0px', ty: '50px' },
     { init: 'Li', color: '#A8B0BA', tx: '-43px', ty: '25px' },
@@ -675,18 +675,18 @@ const BookingAnimation = ({ onDone }) => {
 }
 
 /* ══════════════════════════════════════════════════════════════════
-   SCREEN 4: Lily's View (interactive SAF toggle)
+   SCREEN 4: David's View (interactive Biofuel toggle)
    ══════════════════════════════════════════════════════════════════ */
 const Screen4 = ({ showConfirmed, onConfirm }) => {
   const [safEnabled, setSafEnabled] = useState(false)
 
   const groupAvatars = [
-    { init: 'H', color: '#D4A843', done: true },
-    { init: 'L', color: C.blue, done: false },
+    { init: 'L', color: '#D4A843', done: true },
+    { init: 'H', color: C.blue, done: false },
     { init: 'D', color: '#10B981', done: false },
     { init: 'F', color: '#8B5CF6', done: false },
-    { init: 'Li', color: '#A8B0BA', done: true },
-    { init: 'D', color: '#F97316', done: false },
+    { init: 'Li', color: '#A8B0BA', done: false },
+    { init: 'D', color: '#F97316', done: true },
   ]
 
   if (showConfirmed) {
@@ -757,7 +757,7 @@ const Screen4 = ({ showConfirmed, onConfirm }) => {
               </div>
             ))}
           </div>
-          <div style={{ fontSize: 12, color: C.grey, marginTop: 8 }}>6 travelers · Hector, Luca, Daniel, Fritiof, Lily, David</div>
+          <div style={{ fontSize: 12, color: C.grey, marginTop: 8 }}>6 travelers · Luca, Hector, Daniel, Fritiof, Lily, David</div>
         </div>
 
         <div style={{ background: C.card, borderRadius: 14, padding: 16 }}>
@@ -766,13 +766,13 @@ const Screen4 = ({ showConfirmed, onConfirm }) => {
             <CreditCard size={20} color={C.grey} />
             <div>
               <div style={{ fontSize: 14, color: C.white }}>Nordea Visa</div>
-              <div style={{ fontSize: 12, color: C.greyLight }}>····4488</div>
+              <div style={{ fontSize: 12, color: C.greyLight }}>····3317</div>
             </div>
             <Check size={16} color={C.green} style={{ marginLeft: 'auto' }} />
           </div>
         </div>
 
-        {/* SAF toggle — interactive */}
+        {/* Biofuel toggle — interactive */}
         <div
           onClick={() => setSafEnabled(prev => !prev)}
           style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '6px 0', cursor: 'pointer', userSelect: 'none' }}
@@ -787,7 +787,7 @@ const Screen4 = ({ showConfirmed, onConfirm }) => {
             {safEnabled && <Check size={14} color={C.white} strokeWidth={3} />}
           </div>
           <div>
-            <span style={{ fontSize: 13, color: C.white }}>Add Sustainable Aviation Fuel</span>
+            <span style={{ fontSize: 13, color: C.white }}>Add Biofuel</span>
             <span style={{ fontSize: 13, color: C.grey }}> (+68 SEK)</span>
           </div>
         </div>
@@ -819,7 +819,7 @@ const Screen5 = () => {
   const totalRows = 18
   const groupRow = 13
   const groupSeatCols = [0, 1, 2, 3, 4, 5]
-  const seatLabels = { 0: 'H', 1: 'L', 2: 'D', 3: 'F', 4: 'Li', 5: 'D' }
+  const seatLabels = { 0: 'L', 1: 'H', 2: 'D', 3: 'F', 4: 'Li', 5: 'D' }
   // Staged animation timings (seconds)
   const seatBaseDelay = 0.4
   const seatRowDelay = 0.03
@@ -903,11 +903,11 @@ const Screen5 = () => {
           <div style={{ fontSize: 13, fontWeight: 600, color: C.white, marginBottom: 12 }}>1,840 SEK charged to each traveler</div>
           {[
             { name: ORGANIZER.name, card: ORGANIZER.card },
-            { name: 'Luca M.', card: '7834' },
-            { name: 'Daniel S.', card: '5519' },
-            { name: 'Fritiof K.', card: '2206' },
-            { name: 'Lily R.', card: '4488' },
-            { name: 'David W.', card: '3317' },
+            { name: 'Hector F.', card: '4291' },
+            { name: 'Daniel Å.', card: '5519' },
+            { name: 'Fritiof H.', card: '2206' },
+            { name: 'Lily G.', card: '4488' },
+            { name: 'David B.', card: '3317' },
           ].map((p, i) => (
             <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', borderTop: i > 0 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
               <div style={{ fontSize: 12, color: C.grey }}>
@@ -939,12 +939,12 @@ const Screen5 = () => {
 }
 
 /* ══════════════════════════════════════════════════════════════════
-   SCREEN BIOFUEL: Biofuel Bonus — collective SAF adoption
+   SCREEN BIOFUEL: Biofuel Bonus — collective Biofuel adoption
    ══════════════════════════════════════════════════════════════════ */
 const ScreenBiofuel = ({ onDone }) => {
   const [safStates, setSafStates] = useState({
-    hector: true,
     luca: true,
+    hector: true,
     daniel: false,
     fritiof: false,
     lily: true,
@@ -955,17 +955,17 @@ const ScreenBiofuel = ({ onDone }) => {
   const [bonusUnlocked, setBonusUnlocked] = useState(false)
 
   const members = [
-    { id: 'hector', name: ORGANIZER.name, init: ORGANIZER.init, initColor: ORGANIZER.initColor, hasSaf: safStates.hector },
-    { id: 'luca', name: 'Luca M.', init: 'L', initColor: C.blue, hasSaf: safStates.luca },
-    { id: 'daniel', name: 'Daniel S.', init: 'D', initColor: '#10B981', hasSaf: safStates.daniel },
-    { id: 'fritiof', name: 'Fritiof K.', init: 'F', initColor: '#8B5CF6', hasSaf: safStates.fritiof },
-    { id: 'lily', name: 'Lily R.', init: 'Li', initColor: '#A8B0BA', hasSaf: safStates.lily },
-    { id: 'david', name: 'David W.', init: 'D', initColor: '#F97316', hasSaf: safStates.david },
+    { id: 'luca', name: ORGANIZER.name, init: ORGANIZER.init, initColor: ORGANIZER.initColor, hasSaf: safStates.luca },
+    { id: 'hector', name: 'Hector F.', init: 'H', initColor: C.blue, hasSaf: safStates.hector },
+    { id: 'daniel', name: 'Daniel Å.', init: 'D', initColor: '#10B981', hasSaf: safStates.daniel },
+    { id: 'fritiof', name: 'Fritiof H.', init: 'F', initColor: '#8B5CF6', hasSaf: safStates.fritiof },
+    { id: 'lily', name: 'Lily G.', init: 'Li', initColor: '#A8B0BA', hasSaf: safStates.lily },
+    { id: 'david', name: 'David B.', init: 'D', initColor: '#F97316', hasSaf: safStates.david },
   ]
 
   const safCount = members.filter(m => m.hasSaf).length
   const allIn = safCount === 6
-  const individualPoints = 300 // per person who adds SAF
+  const individualPoints = 300 // per person who adds Biofuel
   const collectiveBonus = allIn ? Math.round(individualPoints * 0.1) : 0 // 10% of individual
   const totalPerPerson = individualPoints + collectiveBonus
 
@@ -1044,7 +1044,7 @@ const ScreenBiofuel = ({ onDone }) => {
           {allIn ? 'All members added Biofuel' : 'Members with Biofuel'}
         </div>
         <div style={{ fontSize: 12, color: C.grey, marginTop: 4, textAlign: 'center' }}>
-          Sustainable Aviation Fuel · 100 SEK per booking
+          Biofuel · 100 SEK per booking
         </div>
       </div>
 
@@ -1184,8 +1184,8 @@ const ScreenBiofuel = ({ onDone }) => {
    ══════════════════════════════════════════════════════════════════ */
 const Screen6 = ({ onBiofuel }) => {
   const avatars = [
-    { init: 'H', color: '#D4A843' },
-    { init: 'L', color: C.blue },
+    { init: 'L', color: '#D4A843' },
+    { init: 'H', color: C.blue },
     { init: 'D', color: '#10B981' },
     { init: 'F', color: '#8B5CF6' },
     { init: 'Li', color: '#A8B0BA' },
@@ -1232,7 +1232,7 @@ const Screen6 = ({ onBiofuel }) => {
                   </div>
                 ))}
               </div>
-              <div style={{ fontSize: 13, color: C.grey }}>Hector, Luca, Daniel, Fritiof, Lily & David</div>
+              <div style={{ fontSize: 13, color: C.grey }}>Luca, Hector, Daniel, Fritiof, Lily & David</div>
               <div style={{ fontSize: 12, color: C.greyLight, marginTop: 2 }}>Seats 14A–14F</div>
             </div>
           </div>
@@ -1341,8 +1341,8 @@ function App() {
     0  → Screen 1   (Flight results)                     click-to-advance
     1  → Screen 1b  (Selected flight, "Book as Group")    INTERACTIVE
     2  → Screen 2   (Pre-populated group invite)          INTERACTIVE
-    3  → Perspective switch to Lily                       auto-advance (1.8s)
-    4  → Screen 4   (Lily's invitation, SAF toggle)       INTERACTIVE
+    3  → Perspective switch to David                      auto-advance (1.8s)
+    4  → Screen 4   (David's invitation, Biofuel toggle)  INTERACTIVE
     5  → Screen 4   confirmed state                       click-to-advance
     6  → Back to organizer                                auto-advance (1.5s)
     7  → Screen 3   (interactive reminders + Book All)    INTERACTIVE
@@ -1355,7 +1355,7 @@ function App() {
   const [transitioning, setTransitioning] = useState(false)
 
   const totalScreens = 6
-  // 0=Flight, 1=Invite, 2=Lily's View, 3=Waiting Room, 4=Confirmation, 5=Trip
+  // 0=Flight, 1=Invite, 2=David's View, 3=Waiting Room, 4=Confirmation, 5=Trip
   const screenIndex = step <= 1 ? 0 : step <= 2 ? 1 : step <= 5 ? 2 : step <= 7 ? 3 : step <= 9 ? 4 : 5
 
   const isInteractive = step === 1 || step === 2 || step === 4 || step === 7 || step === 10 || step === 11
@@ -1390,7 +1390,7 @@ function App() {
     setTimeout(() => { setStep(3); setTransitioning(false) }, 250)
   }, [])
 
-  const handleLilyConfirm = useCallback(() => {
+  const handleDavidConfirm = useCallback(() => {
     setTransitioning(true)
     setTimeout(() => { setStep(5); setTransitioning(false) }, 250)
   }, [])
@@ -1419,8 +1419,8 @@ function App() {
     if (step === 0) return <Screen1 />
     if (step === 1) return <Screen1b onBookAsGroup={handleBookAsGroup} />
     if (step === 2) return <Screen2 onComplete={handleScreen2Complete} />
-    if (step === 3) return <PerspectiveSwitch name="Lily R." onDone={() => setStep(4)} />
-    if (step === 4) return <Screen4 showConfirmed={false} onConfirm={handleLilyConfirm} />
+    if (step === 3) return <PerspectiveSwitch name="David B." onDone={() => setStep(4)} />
+    if (step === 4) return <Screen4 showConfirmed={false} onConfirm={handleDavidConfirm} />
     if (step === 5) return <Screen4 showConfirmed={true} />
     if (step === 6) return <BackToOrganizer onDone={() => setStep(7)} />
     if (step === 7) return <Screen3 onBookAll={handleBookAll} />
@@ -1436,7 +1436,7 @@ function App() {
     if (step === 11) return 'Invite remaining members to unlock the group bonus'
     if (step === 1) return 'Tap "Book as Group" to invite friends'
     if (step === 2) return 'Review your group, then send invites'
-    if (step === 4) return "Toggle SAF, then tap Confirm & Join"
+    if (step === 4) return "Toggle Biofuel, then tap Confirm & Join"
     if (step === 7) return "Send reminders to pending travelers, then Book All"
     return 'Click anywhere on the phone to continue'
   }
