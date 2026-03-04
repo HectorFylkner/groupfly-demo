@@ -658,7 +658,7 @@ const BookingAnimation = ({ onDone }) => {
     3.7 – 4.8   Confirmed state (plane + settled dots)
     4.8         → onDone
   */
-  const TOTAL = 4.8
+  const TOTAL = 5.8
   const T_FADE_END = 0.6
   const T_ACCEL_START = 2.0
   const T_CONVERGE = 3.6
