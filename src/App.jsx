@@ -96,7 +96,7 @@ const TierBadge = ({ tier }) => {
     Gold: { color: '#D4A843', border: 'rgba(212,168,67,0.3)' },
     Silver: { color: '#C5CCD6', border: 'rgba(197,204,214,0.35)' },
     Member: { color: C.greyLight, border: 'rgba(107,114,128,0.2)' },
-    Pandion: { color: 'rgba(255,255,255,0.35)', bright: 'rgba(255,255,255,0.85)', border: 'rgba(255,255,255,0.12)' },
+    Pandion: { color: 'rgba(255,255,255,0.35)', bright: 'rgba(255,255,255,0.85)', border: 'rgba(255,255,255,0.22)' },
   }
   const c = cfg[tier] || cfg.Member
   if (tier === 'Pandion') {
