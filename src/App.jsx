@@ -96,9 +96,27 @@ const TierBadge = ({ tier }) => {
     Gold: { color: '#D4A843', border: 'rgba(212,168,67,0.3)' },
     Silver: { color: '#A8B0BA', border: 'rgba(168,176,186,0.25)' },
     Member: { color: C.greyLight, border: 'rgba(107,114,128,0.2)' },
-    Pandion: { color: 'rgba(255,255,255,0.7)', border: 'rgba(255,255,255,0.12)' },
+    Pandion: { color: 'rgba(255,255,255,0.35)', bright: 'rgba(255,255,255,0.85)', border: 'rgba(255,255,255,0.12)' },
   }
   const c = cfg[tier] || cfg.Member
+  if (tier === 'Pandion') {
+    return (
+      <span style={{
+        border: `1px solid ${c.border}`,
+        padding: '1px 1px 1px 7px', borderRadius: 4, marginLeft: 6,
+        display: 'inline-flex', gap: 0,
+      }}>
+        {'Pandion'.split('').map((ch, i) => (
+          <span key={i} style={{
+            fontSize: 10, fontWeight: 500, letterSpacing: 0.3,
+            color: c.color,
+            animation: `pandionGlow 4s ease-in-out ${i * 0.35}s infinite`,
+            paddingRight: i === 6 ? 6 : 0,
+          }}>{ch}</span>
+        ))}
+      </span>
+    )
+  }
   return (
     <span style={{
       fontSize: 10, fontWeight: 500, color: c.color,

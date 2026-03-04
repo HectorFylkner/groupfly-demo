@@ -139,3 +139,9 @@ body {
   75% { transform: scale(0.95); }
   100% { transform: scale(1); opacity: 1; }
 }
+
+@keyframes pandionGlow {
+  0%, 100% { color: rgba(255,255,255,0.35); }
+  15% { color: rgba(255,255,255,0.85); }
+  30% { color: rgba(255,255,255,0.35); }
+}
