@@ -211,15 +211,19 @@ const Screen1 = () => (
           border: f.selected ? `1px solid ${C.blue}40` : '1px solid transparent',
           transition: 'border 0.2s ease'
         }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <span style={{ fontSize: 22, fontWeight: 700, color: C.white }}>{f.dep}</span>
-            <div style={{ textAlign: 'center' }}>
-              <span style={{ fontSize: 12, color: C.grey }}>{f.dur}</span>
-              <div style={{ fontSize: 11, color: C.grey }}>Direct</div>
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+              <div style={{ width: '100%', height: 2, background: C.blue, borderRadius: 1 }} />
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                <span style={{ fontSize: 11, color: C.grey }}>Direct</span>
+                <span style={{ fontSize: 11, color: C.greyLight }}>·</span>
+                <span style={{ fontSize: 11, color: C.grey }}>{f.dur}</span>
+              </div>
             </div>
             <span style={{ fontSize: 22, fontWeight: 700, color: C.white }}>{f.arr}</span>
           </div>
-          <div style={{ height: 2, background: C.blue, borderRadius: 1, margin: '10px 0' }} />
+          <div style={{ height: 8 }} />
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
             <span style={{ fontSize: 13, color: C.grey }}>ARN</span>
             <span style={{ fontSize: 13, color: C.grey }}>BCN</span>
@@ -365,12 +369,13 @@ const Screen2 = ({ onComplete }) => {
       {/* Flight summary */}
       <div style={{ margin: '4px 20px 16px', padding: '14px 16px', background: C.card, borderRadius: 14, animation: 'fadeInUp 0.35s ease' }}>
         <div style={{ fontSize: 13, color: C.grey, marginBottom: 6 }}>SK1423 · ARN → BCN · Sat, Mar 15</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ fontSize: 16, fontWeight: 700, color: C.white }}>08:40</span>
-          <div style={{ flex: 1, height: 2, background: C.blue, borderRadius: 1 }} />
-          <span style={{ fontSize: 12, color: C.grey }}>Direct</span>
-          <div style={{ flex: 1, height: 2, background: C.blue, borderRadius: 1 }} />
-          <span style={{ fontSize: 16, fontWeight: 700, color: C.white }}>12:15</span>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span style={{ fontSize: 16, fontWeight: 700, color: C.white }}>08:40</span>
+            <div style={{ flex: 1, height: 2, background: C.blue, borderRadius: 1 }} />
+            <span style={{ fontSize: 16, fontWeight: 700, color: C.white }}>12:15</span>
+          </div>
+          <div style={{ fontSize: 11, color: C.grey, textAlign: 'center', marginTop: 4 }}>Direct</div>
         </div>
         <div style={{ marginTop: 8, fontSize: 13, color: C.grey }}>From <span style={{ fontWeight: 700, color: C.white }}>1,840</span> SEK /person</div>
       </div>
@@ -503,12 +508,13 @@ const Screen3 = ({ onBookAll }) => {
 
       <div style={{ margin: '4px 20px 12px', padding: '12px 16px', background: C.card, borderRadius: 14 }}>
         <div style={{ fontSize: 13, color: C.grey, marginBottom: 4 }}>SK1423 · ARN → BCN · Sat, Mar 15</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontSize: 15, fontWeight: 700, color: C.white }}>08:40</span>
-          <div style={{ flex: 1, height: 2, background: C.blue, borderRadius: 1 }} />
-          <span style={{ fontSize: 11, color: C.grey }}>Direct</span>
-          <div style={{ flex: 1, height: 2, background: C.blue, borderRadius: 1 }} />
-          <span style={{ fontSize: 15, fontWeight: 700, color: C.white }}>12:15</span>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontSize: 15, fontWeight: 700, color: C.white }}>08:40</span>
+            <div style={{ flex: 1, height: 2, background: C.blue, borderRadius: 1 }} />
+            <span style={{ fontSize: 15, fontWeight: 700, color: C.white }}>12:15</span>
+          </div>
+          <div style={{ fontSize: 11, color: C.grey, textAlign: 'center', marginTop: 4 }}>Direct</div>
         </div>
       </div>
 
@@ -761,12 +767,13 @@ const Screen4 = ({ showConfirmed, onConfirm }) => {
 
         <div style={{ background: C.card, borderRadius: 14, padding: 16 }}>
           <div style={{ fontSize: 13, color: C.grey, marginBottom: 6 }}>SK1423 · ARN → BCN · Sat, Mar 15</div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-            <span style={{ fontSize: 18, fontWeight: 700, color: C.white }}>08:40</span>
-            <div style={{ flex: 1, height: 2, background: C.blue, borderRadius: 1 }} />
-            <span style={{ fontSize: 12, color: C.grey }}>Direct</span>
-            <div style={{ flex: 1, height: 2, background: C.blue, borderRadius: 1 }} />
-            <span style={{ fontSize: 18, fontWeight: 700, color: C.white }}>12:15</span>
+          <div style={{ marginBottom: 8 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontSize: 18, fontWeight: 700, color: C.white }}>08:40</span>
+              <div style={{ flex: 1, height: 2, background: C.blue, borderRadius: 1 }} />
+              <span style={{ fontSize: 18, fontWeight: 700, color: C.white }}>12:15</span>
+            </div>
+            <div style={{ fontSize: 11, color: C.grey, textAlign: 'center', marginTop: 4 }}>Direct</div>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span style={{ fontSize: 13, color: C.grey }}>Your share</span>
