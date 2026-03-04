@@ -94,7 +94,7 @@ const HomeIndicator = () => (
 const TierBadge = ({ tier }) => {
   const cfg = {
     Gold: { color: '#D4A843', border: 'rgba(212,168,67,0.3)' },
-    Silver: { color: '#A8B0BA', border: 'rgba(168,176,186,0.25)' },
+    Silver: { color: '#C5CCD6', border: 'rgba(197,204,214,0.35)' },
     Member: { color: C.greyLight, border: 'rgba(107,114,128,0.2)' },
     Pandion: { color: 'rgba(255,255,255,0.35)', bright: 'rgba(255,255,255,0.85)', border: 'rgba(255,255,255,0.12)' },
   }
