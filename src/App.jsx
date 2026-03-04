@@ -636,6 +636,7 @@ const Screen3 = ({ onBookAll }) => {
 const BookingAnimation = ({ onDone }) => {
   const canvasRef = useRef(null)
   const [showFlash, setShowFlash] = useState(false)
+  const [isExiting, setIsExiting] = useState(false)
   const startTimeRef = useRef(null)
   const rafRef = useRef(null)
 
@@ -655,7 +656,7 @@ const BookingAnimation = ({ onDone }) => {
     2.0 – 3.6   Accelerating spiral inward (speed ramps up, radius shrinks)
     3.6         Crescendo flash → advance to seat map
   */
-  const TOTAL = 4.2
+  const TOTAL = 4.3
   const T_FADE_END = 0.6
   const T_ACCEL_START = 2.0
   const T_CONVERGE = 3.6
@@ -883,9 +884,10 @@ const BookingAnimation = ({ onDone }) => {
 
     rafRef.current = requestAnimationFrame(animate)
 
-    // Trigger flash
+    // Trigger flash + graceful exit
     const flashTimer = setTimeout(() => setShowFlash(true), T_CONVERGE * 1000)
     const flashOffTimer = setTimeout(() => setShowFlash(false), (T_CONVERGE + 0.6) * 1000)
+    const exitTimer = setTimeout(() => setIsExiting(true), T_CONVERGE * 1000)
     // Done
     const doneTimer = setTimeout(onDone, TOTAL * 1000)
 
@@ -893,6 +895,7 @@ const BookingAnimation = ({ onDone }) => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
       clearTimeout(flashTimer)
       clearTimeout(flashOffTimer)
+      clearTimeout(exitTimer)
       clearTimeout(doneTimer)
     }
   }, [onDone])
@@ -915,23 +918,23 @@ const BookingAnimation = ({ onDone }) => {
       {/* Canvas for smooth animation */}
       <canvas
         ref={canvasRef}
-        style={{ width: 220, height: 220, marginBottom: 24 }}
+        style={{ width: 220, height: 220, marginBottom: 24, opacity: isExiting ? 0 : 1, transition: 'opacity 0.6s ease-out' }}
       />
 
       {/* Text */}
       <div style={{
         fontSize: 18, fontWeight: 600, color: C.white, marginBottom: 6,
-        opacity: showFlash ? 0 : 1,
-        transition: 'opacity 0.2s ease',
+        opacity: (showFlash || isExiting) ? 0 : 1,
+        transition: 'opacity 0.3s ease',
       }}>
         Booking 6 seats together...
       </div>
-      <div style={{ fontSize: 13, color: C.grey, marginBottom: 28 }}>
+      <div style={{ fontSize: 13, color: C.grey, marginBottom: 28, opacity: isExiting ? 0 : 1, transition: 'opacity 0.3s ease' }}>
         SK1423 · ARN → BCN
       </div>
 
       {/* Progress bar */}
-      <div style={{ width: 200, height: 3, background: 'rgba(255,255,255,0.06)', borderRadius: 2, overflow: 'hidden' }}>
+      <div style={{ width: 200, height: 3, background: 'rgba(255,255,255,0.06)', borderRadius: 2, overflow: 'hidden', opacity: isExiting ? 0 : 1, transition: 'opacity 0.4s ease' }}>
         <div style={{
           height: '100%', borderRadius: 2,
           background: C.blue,
@@ -1090,7 +1093,7 @@ const Screen5 = () => {
   const groupSeatCols = [0, 1, 2, 3, 4, 5]
   const seatLabels = { 0: 'L', 1: 'H', 2: 'D', 3: 'F', 4: 'Li', 5: 'D' }
   // Staged animation timings (seconds)
-  const seatBaseDelay = 0.4
+  const seatBaseDelay = 0.7
   const seatRowDelay = 0.03
   const pauseAt = seatBaseDelay + totalRows * seatRowDelay + 0.4
   const highlightStagger = 0.25
@@ -1130,9 +1133,9 @@ const Screen5 = () => {
   }
 
   return (
-    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'auto' }}>
-      <div style={{ textAlign: 'center', padding: '24px 20px 16px', animation: 'fadeInUp 0.4s ease' }}>
-        <div style={{ width: 72, height: 72, borderRadius: 36, background: `${C.green}18`, margin: '0 auto 16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'auto', animation: 'fadeIn 0.6s ease' }}>
+      <div style={{ textAlign: 'center', padding: '24px 20px 16px', animation: 'fadeInUp 0.5s ease 0.1s both' }}>
+        <div style={{ width: 72, height: 72, borderRadius: 36, background: `${C.green}18`, margin: '0 auto 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'confirmAppear 0.7s ease 0.15s both' }}>
           <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
             <path d="M5 13l4 4L19 7" stroke={C.green} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
               style={{ strokeDasharray: 24, strokeDashoffset: 24, animation: 'checkDraw 0.6s ease 0.3s forwards' }}
@@ -1144,7 +1147,7 @@ const Screen5 = () => {
       </div>
 
       {/* Seat map — staged reveal */}
-      <div style={{ padding: '0 20px 12px', animation: 'fadeInUp 0.5s ease' }}>
+      <div style={{ padding: '0 20px 12px', animation: 'fadeInUp 0.5s ease 0.25s both' }}>
         <div style={{ background: C.card, borderRadius: 16, padding: '20px 16px' }}>
           <div style={{ fontSize: 13, fontWeight: 600, color: C.white, marginBottom: 14, textAlign: 'center' }}>Your seats</div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
@@ -1167,7 +1170,7 @@ const Screen5 = () => {
       </div>
 
       {/* Cost breakdown */}
-      <div style={{ padding: '0 20px 12px', animation: 'fadeInUp 0.6s ease' }}>
+      <div style={{ padding: '0 20px 12px', animation: 'fadeInUp 0.5s ease 0.45s both' }}>
         <div style={{ background: C.card, borderRadius: 14, padding: 16 }}>
           <div style={{ fontSize: 13, fontWeight: 600, color: C.white, marginBottom: 12 }}>1,840 SEK charged to each traveler</div>
           {[
@@ -1195,7 +1198,7 @@ const Screen5 = () => {
         </div>
       </div>
 
-      <div style={{ padding: '0 20px 16px' }}>
+      <div style={{ padding: '0 20px 16px', opacity: 0, animation: 'fadeInUp 0.5s ease 0.6s forwards' }}>
         <div style={{ background: C.blue, borderRadius: 26, padding: '14px 0', textAlign: 'center', fontWeight: 600, fontSize: 15, color: C.white }}>
           Share confirmation with group
         </div>
