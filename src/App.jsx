@@ -634,74 +634,201 @@ const Screen3 = ({ onBookAll }) => {
    BOOKING ANIMATION — premium transition after clicking Book All
    ══════════════════════════════════════════════════════════════════ */
 const BookingAnimation = ({ onDone }) => {
-  const [phase, setPhase] = useState(0) // 0=initials converge, 1=plane flies, 2=done
+  const [phase, setPhase] = useState(0)
+  // 0=constellation forms (0-1.4s), 1=orbit+connect (1.4-2.6s), 2=converge+merge (2.6-3.8s), 3=confirmed (3.8-5s)
 
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase(1), 1000)
-    const t2 = setTimeout(() => setPhase(2), 2200)
-    const t3 = setTimeout(onDone, 3200)
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3) }
+    const t1 = setTimeout(() => setPhase(1), 1400)
+    const t2 = setTimeout(() => setPhase(2), 2600)
+    const t3 = setTimeout(() => setPhase(3), 3800)
+    const t4 = setTimeout(onDone, 5000)
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4) }
   }, [onDone])
 
   const people = [
-    { init: 'L', color: '#D4A843', tx: '0px', ty: '-50px' },
-    { init: 'H', color: C.blue, tx: '43px', ty: '-25px' },
-    { init: 'D', color: '#10B981', tx: '43px', ty: '25px' },
-    { init: 'F', color: '#8B5CF6', tx: '0px', ty: '50px' },
-    { init: 'Li', color: '#A8B0BA', tx: '-43px', ty: '25px' },
-    { init: 'D', color: '#F97316', tx: '-43px', ty: '-25px' },
+    { init: 'L', color: '#D4A843' },
+    { init: 'H', color: C.blue },
+    { init: 'D', color: '#10B981' },
+    { init: 'F', color: '#8B5CF6' },
+    { init: 'Li', color: '#A8B0BA' },
+    { init: 'D', color: '#F97316' },
   ]
+
+  // Hexagonal positions (radius 70)
+  const r = 70
+  const positions = people.map((_, i) => {
+    const angle = (i * 60 - 90) * (Math.PI / 180)
+    return { x: Math.cos(angle) * r, y: Math.sin(angle) * r }
+  })
+
+  // Particles for phase 3
+  const particles = Array.from({ length: 12 }, (_, i) => {
+    const angle = i * 30 * (Math.PI / 180)
+    return { x: Math.cos(angle) * 120, y: Math.sin(angle) * 120 }
+  })
 
   return (
     <div style={{
       position: 'absolute', inset: 0, zIndex: 20, background: C.bg,
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-      animation: 'fadeIn 0.3s ease'
+      animation: 'fadeIn 0.3s ease', overflow: 'hidden',
     }}>
-      {/* Member initials that converge */}
-      <div style={{ position: 'relative', width: 140, height: 140, marginBottom: 32 }}>
-        {people.map((p, i) => (
-          <div key={i} style={{
-            position: 'absolute',
-            left: '50%', top: '50%',
-            marginLeft: -20, marginTop: -20,
-            width: 40, height: 40, borderRadius: 20,
-            background: `${p.color}20`,
-            border: `2px solid ${p.color}60`,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            '--tx': p.tx, '--ty': p.ty,
-            animation: `converge 1s ease forwards, ${phase >= 1 ? 'orbitPulse 0.8s ease infinite' : 'none'}`,
-            zIndex: 2,
-          }}>
-            <span style={{ fontSize: p.init.length > 1 ? 12 : 15, fontWeight: 700, color: p.color }}>{p.init}</span>
-          </div>
-        ))}
-        {/* Center plane icon */}
+      {/* Central animation area */}
+      <div style={{ position: 'relative', width: 200, height: 200, marginBottom: 32 }}>
+
+        {/* Outer orbit ring — appears in phase 1 */}
         <div style={{
           position: 'absolute', left: '50%', top: '50%',
-          marginLeft: -20, marginTop: -20,
-          width: 40, height: 40, borderRadius: 20,
-          background: `${C.blue}25`, display: 'flex', alignItems: 'center', justifyContent: 'center',
-          opacity: phase >= 1 ? 1 : 0, transition: 'opacity 0.4s ease',
-          animation: phase >= 1 ? 'planeFloat 1.5s ease-in-out infinite' : 'none',
-          zIndex: 3,
+          width: r * 2 + 20, height: r * 2 + 20,
+          marginLeft: -(r + 10), marginTop: -(r + 10),
+          borderRadius: '50%',
+          border: '1px solid rgba(43,107,242,0.12)',
+          opacity: phase >= 1 && phase < 2 ? 1 : 0,
+          transition: 'opacity 0.5s ease',
+        }} />
+
+        {/* Connecting lines between adjacent members */}
+        {phase >= 1 && phase < 2 && positions.map((pos, i) => {
+          const next = positions[(i + 1) % 6]
+          const angle = Math.atan2(next.y - pos.y, next.x - pos.x) * (180 / Math.PI)
+          const dist = Math.sqrt((next.x - pos.x) ** 2 + (next.y - pos.y) ** 2)
+          return (
+            <div key={`line-${i}`} style={{
+              position: 'absolute',
+              left: '50%', top: '50%',
+              width: dist, height: 1,
+              background: `linear-gradient(90deg, ${people[i].color}40, ${people[(i + 1) % 6].color}40)`,
+              transformOrigin: '0 50%',
+              transform: `translate(${pos.x}px, ${pos.y}px) rotate(${angle}deg)`,
+              animation: `fadeIn 0.4s ease ${i * 0.08}s both`,
+            }} />
+          )
+        })}
+
+        {/* Merge pulse rings — phase 2 */}
+        {phase >= 2 && [0, 1, 2].map(i => (
+          <div key={`ring-${i}`} style={{
+            position: 'absolute', left: '50%', top: '50%',
+            width: 0, height: 0,
+            borderRadius: '50%',
+            border: `1px solid ${C.blue}`,
+            transform: 'translate(-50%, -50%)',
+            animation: `bookingRipple 1.2s ease-out ${i * 0.25}s forwards`,
+            pointerEvents: 'none',
+          }} />
+        ))}
+
+        {/* Burst particles — phase 3 */}
+        {phase >= 3 && particles.map((p, i) => (
+          <div key={`particle-${i}`} style={{
+            position: 'absolute', left: '50%', top: '50%',
+            width: 3, height: 3, borderRadius: '50%',
+            background: i % 3 === 0 ? C.blue : i % 3 === 1 ? '#D4A843' : 'rgba(255,255,255,0.6)',
+            animation: `bookingBurst 0.8s ease-out forwards`,
+            '--bx': `${p.x}px`, '--by': `${p.y}px`,
+            animationDelay: `${i * 0.03}s`,
+          }} />
+        ))}
+
+        {/* Rotating container for orbiting members */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          animation: phase >= 1 && phase < 2 ? 'bookingSpin 3s linear infinite' : 'none',
+          transition: 'transform 0.6s ease',
         }}>
-          <Plane size={20} color={C.blue} />
+          {people.map((p, i) => {
+            const pos = positions[i]
+            const isConverged = phase >= 2
+            const targetX = isConverged ? 0 : pos.x
+            const targetY = isConverged ? 0 : pos.y
+            const size = isConverged ? (phase >= 3 ? 0 : 20) : 36
+
+            return (
+              <div key={i} style={{
+                position: 'absolute',
+                left: '50%', top: '50%',
+                transform: `translate(${targetX - size / 2}px, ${targetY - size / 2}px)`,
+                width: size, height: size, borderRadius: '50%',
+                background: `${p.color}${isConverged ? '30' : '20'}`,
+                border: `2px solid ${p.color}${isConverged ? '80' : '50'}`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                transition: 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                animation: phase === 0 ? `fadeIn 0.4s ease ${i * 0.12}s both` : 'none',
+                // Counter-rotate to keep initials upright during orbit
+                ...(phase >= 1 && phase < 2 ? { animation: 'bookingCounterSpin 3s linear infinite' } : {}),
+              }}>
+                <span style={{
+                  fontSize: isConverged ? 0 : (p.init.length > 1 ? 10 : 13),
+                  fontWeight: 700, color: p.color,
+                  transition: 'font-size 0.6s ease',
+                }}>{p.init}</span>
+              </div>
+            )
+          })}
         </div>
+
+        {/* Center glow — builds through phases */}
+        <div style={{
+          position: 'absolute', left: '50%', top: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: phase >= 3 ? 64 : phase >= 2 ? 40 : 0,
+          height: phase >= 3 ? 64 : phase >= 2 ? 40 : 0,
+          borderRadius: '50%',
+          background: phase >= 3
+            ? `radial-gradient(circle, ${C.blue}30 0%, transparent 70%)`
+            : `radial-gradient(circle, ${C.blue}20 0%, transparent 70%)`,
+          transition: 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        }} />
+
+        {/* Plane icon — appears phase 2, grows phase 3 */}
+        <div style={{
+          position: 'absolute', left: '50%', top: '50%',
+          transform: `translate(-50%, -50%) ${phase >= 3 ? 'scale(1)' : 'scale(0.6)'}`,
+          opacity: phase >= 2 ? 1 : 0,
+          transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
+          zIndex: 5,
+        }}>
+          <Plane size={phase >= 3 ? 28 : 22} color={C.white} style={{
+            filter: `drop-shadow(0 0 8px ${C.blue})`,
+            transition: 'all 0.4s ease',
+          }} />
+        </div>
+
+        {/* Check mark overlay — phase 3 */}
+        {phase >= 3 && (
+          <div style={{
+            position: 'absolute', left: '50%', top: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 80, height: 80, borderRadius: '50%',
+            border: `2px solid ${C.blue}40`,
+            animation: 'bookingCheckRing 0.6s ease forwards',
+            zIndex: 4,
+          }} />
+        )}
       </div>
 
-      <div style={{ fontSize: 18, fontWeight: 600, color: C.white, marginBottom: 8, animation: 'fadeIn 0.5s ease' }}>
-        {phase < 2 ? 'Booking 6 seats together...' : 'Seats secured!'}
+      {/* Text */}
+      <div style={{
+        fontSize: 18, fontWeight: 600, color: C.white, marginBottom: 6,
+        animation: phase >= 3 ? 'fadeInUp 0.4s ease' : 'fadeIn 0.5s ease',
+      }}>
+        {phase >= 3 ? 'Seats secured!' : phase >= 2 ? 'Locking in your seats...' : 'Booking 6 seats together...'}
       </div>
-      <div style={{ fontSize: 13, color: C.grey, marginBottom: 24, animation: 'fadeIn 0.7s ease' }}>
+      <div style={{
+        fontSize: 13, color: C.grey, marginBottom: 28,
+        animation: 'fadeIn 0.7s ease',
+      }}>
         SK1423 · ARN → BCN
       </div>
 
       {/* Progress bar */}
-      <div style={{ width: 200, height: 3, background: 'rgba(255,255,255,0.08)', borderRadius: 2, overflow: 'hidden' }}>
+      <div style={{ width: 200, height: 3, background: 'rgba(255,255,255,0.06)', borderRadius: 2, overflow: 'hidden' }}>
         <div style={{
-          height: '100%', background: C.blue, borderRadius: 2,
-          animation: 'progressFill 3s ease forwards'
+          height: '100%', borderRadius: 2,
+          background: phase >= 3
+            ? C.blue
+            : `linear-gradient(90deg, ${C.blue}, ${C.blue}80)`,
+          animation: 'progressFill 4.5s ease forwards',
         }} />
       </div>
     </div>
