@@ -892,12 +892,12 @@ const BookingAnimation = ({ onDone }) => {
         ctx.fillStyle = gradient
         ctx.fill()
 
-        // Ring around plane
+        // Settled ring
         const ringScale = 0.5 + confirmP * 0.5
         ctx.beginPath()
-        ctx.arc(cx, cy, 36 * ringScale, 0, Math.PI * 2)
-        ctx.strokeStyle = `rgba(43,107,242,${0.25 * confirmP})`
-        ctx.lineWidth = 1.5
+        ctx.arc(cx, cy, 44 * ringScale, 0, Math.PI * 2)
+        ctx.strokeStyle = `rgba(43,107,242,${0.15 * confirmP})`
+        ctx.lineWidth = 1
         ctx.stroke()
 
         // Small settled dots
@@ -964,21 +964,6 @@ const BookingAnimation = ({ onDone }) => {
         ref={canvasRef}
         style={{ width: 220, height: 220, marginBottom: 24 }}
       />
-
-      {/* Plane icon — rendered in DOM for crisp SVG */}
-      <div style={{
-        position: 'absolute',
-        left: '50%', top: '50%',
-        marginTop: -134,
-        transform: `translate(-50%, -50%) scale(${showConfirmed ? 1 : 0})`,
-        opacity: showConfirmed ? 1 : 0,
-        transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
-        zIndex: 5,
-      }}>
-        <Plane size={26} color={C.white} style={{
-          filter: `drop-shadow(0 0 8px ${C.blue})`,
-        }} />
-      </div>
 
       {/* Text */}
       <div style={{
