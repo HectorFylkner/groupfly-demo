@@ -110,7 +110,7 @@ const TierBadge = ({ tier }) => {
           <span key={i} style={{
             fontSize: 10, fontWeight: 500, letterSpacing: 0.3,
             color: c.color,
-            animation: `pandionGlow 4s ease-in-out ${i * 0.35}s infinite`,
+            animation: `pandionGlow 3s ease-in-out ${i * 0.18}s infinite`,
             paddingRight: i === 6 ? 6 : 0,
           }}>{ch}</span>
         ))}

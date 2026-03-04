@@ -142,6 +142,6 @@ body {
 
 @keyframes pandionGlow {
   0%, 100% { color: rgba(255,255,255,0.35); }
-  15% { color: rgba(255,255,255,0.85); }
-  30% { color: rgba(255,255,255,0.35); }
+  8% { color: rgba(255,255,255,0.62); }
+  16% { color: rgba(255,255,255,0.35); }
 }
