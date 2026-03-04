@@ -25,7 +25,7 @@ const C = {
 const ALL_MEMBERS = [
   { id: 'hector', name: 'Hector F.', tier: 'Silver', eb: 'EB-209847102', card: '4291', init: 'H', initColor: C.blue },
   { id: 'daniel', name: 'Daniel Å.', tier: 'Silver', eb: 'EB-671034825', card: '5519', init: 'D', initColor: '#10B981' },
-  { id: 'fritiof', name: 'Fritiof H.', tier: 'Member', eb: 'EB-812956340', card: '2206', init: 'F', initColor: '#8B5CF6' },
+  { id: 'fritiof', name: 'Fritiof H.', tier: 'Pandion', eb: 'EB-812956340', card: '2206', init: 'F', initColor: '#8B5CF6' },
   { id: 'lily', name: 'Lily G.', tier: 'Silver', eb: 'EB-309284751', card: '4488', init: 'Li', initColor: '#A8B0BA' },
   { id: 'david', name: 'David B.', tier: 'Member', eb: 'EB-156723890', card: '3317', init: 'D', initColor: '#F97316' },
 ]
@@ -92,7 +92,21 @@ const HomeIndicator = () => (
 
 /* ─── Tier Badge ─── */
 const TierBadge = ({ tier }) => {
-  const colors = { Gold: '#D4A843', Silver: '#A8B0BA', Member: C.blue }
+  const colors = { Gold: '#D4A843', Silver: '#A8B0BA', Member: C.blue, Pandion: '#E8DFF0' }
+  if (tier === 'Pandion') {
+    return (
+      <span style={{
+        fontSize: 11, fontWeight: 600, letterSpacing: 0.8,
+        color: '#E8DFF0',
+        background: 'linear-gradient(135deg, rgba(139,92,246,0.15) 0%, rgba(232,223,240,0.08) 100%)',
+        padding: '2px 9px', borderRadius: 10, marginLeft: 6,
+        border: '1px solid rgba(139,92,246,0.2)',
+        textTransform: 'uppercase',
+      }}>
+        {tier}
+      </span>
+    )
+  }
   return (
     <span style={{ fontSize: 11, fontWeight: 600, color: colors[tier] || C.greyLight, background: `${(colors[tier] || C.greyLight)}18`, padding: '2px 8px', borderRadius: 10, marginLeft: 6 }}>
       {tier}
@@ -459,7 +473,7 @@ const Screen3 = ({ onBookAll }) => {
     { id: null, name: 'Daniel Å.', tier: 'Silver', card: '5519', init: 'D', initColor: '#10B981', method: 'EB Invite', status: 'confirmed' },
     { id: null, name: 'Lily G.', tier: 'Silver', card: '4488', init: 'Li', initColor: '#A8B0BA', method: 'EB Invite', status: 'confirmed' },
     { id: null, name: 'David B.', tier: 'Member', card: '3317', init: 'D', initColor: '#F97316', method: 'EB Invite', status: 'confirmed' },
-    { id: 'fritiof', name: 'Fritiof H.', tier: 'Member', card: '2206', init: 'F', initColor: '#8B5CF6', method: 'EB Invite', status: memberStates.fritiof },
+    { id: 'fritiof', name: 'Fritiof H.', tier: 'Pandion', card: '2206', init: 'F', initColor: '#8B5CF6', method: 'EB Invite', status: memberStates.fritiof },
   ]
 
   return (
