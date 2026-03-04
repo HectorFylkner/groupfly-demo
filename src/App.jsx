@@ -92,23 +92,20 @@ const HomeIndicator = () => (
 
 /* ─── Tier Badge ─── */
 const TierBadge = ({ tier }) => {
-  const colors = { Gold: '#D4A843', Silver: '#A8B0BA', Member: C.blue, Pandion: '#E8DFF0' }
-  if (tier === 'Pandion') {
-    return (
-      <span style={{
-        fontSize: 11, fontWeight: 600, letterSpacing: 0.8,
-        color: '#E8DFF0',
-        background: 'linear-gradient(135deg, rgba(139,92,246,0.15) 0%, rgba(232,223,240,0.08) 100%)',
-        padding: '2px 9px', borderRadius: 10, marginLeft: 6,
-        border: '1px solid rgba(139,92,246,0.2)',
-        textTransform: 'uppercase',
-      }}>
-        {tier}
-      </span>
-    )
+  const cfg = {
+    Gold: { color: '#D4A843', border: 'rgba(212,168,67,0.3)' },
+    Silver: { color: '#A8B0BA', border: 'rgba(168,176,186,0.25)' },
+    Member: { color: C.greyLight, border: 'rgba(107,114,128,0.2)' },
+    Pandion: { color: 'rgba(255,255,255,0.7)', border: 'rgba(255,255,255,0.12)' },
   }
+  const c = cfg[tier] || cfg.Member
   return (
-    <span style={{ fontSize: 11, fontWeight: 600, color: colors[tier] || C.greyLight, background: `${(colors[tier] || C.greyLight)}18`, padding: '2px 8px', borderRadius: 10, marginLeft: 6 }}>
+    <span style={{
+      fontSize: 10, fontWeight: 500, color: c.color,
+      border: `1px solid ${c.border}`,
+      padding: '1px 7px', borderRadius: 4, marginLeft: 6,
+      letterSpacing: 0.3,
+    }}>
       {tier}
     </span>
   )
